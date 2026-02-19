@@ -1,19 +1,7 @@
 {
-  "version": 2,
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "api/index.ts"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "api/index.ts"
-    }
-  ],
-  "functions": {
-    "api/index.ts": {
-      "maxDuration": 30,
-      "includeFiles": "templates/**"
-    }
-  }
+  "buildCommand": "cd client && npm install && npm run build",
+  "outputDirectory": "client/dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
