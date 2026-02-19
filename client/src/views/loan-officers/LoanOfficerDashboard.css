@@ -1,13 +1,9 @@
-/* ═══════════════════════════════════════════════
-   Loan Officer Dashboard – Black & White Theme
-   ═══════════════════════════════════════════════ */
+/* ── Loan Officer Dashboard ─── */
 
 .lo-dashboard {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 24px;
-  background: #fafafa;
-  min-height: 100vh;
+  background: transparent;
 }
 
 /* ── Header ── */
@@ -15,11 +11,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #000;
-  color: #fff;
-  border-radius: 12px;
-  padding: 24px 32px;
-  margin-bottom: 24px;
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.04);
 }
 
 .lo-header-left {
@@ -29,26 +27,27 @@
 }
 
 .lo-badge {
-  background: #fff;
-  color: #000;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   padding: 4px 10px;
-  border-radius: 4px;
+  border-radius: 9999px;
   white-space: nowrap;
+  text-transform: uppercase;
 }
 
 .lo-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   margin: 0;
-  color: #fff;
+  color: hsl(var(--foreground));
 }
 
 .lo-subtitle {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  color: hsl(var(--muted-foreground));
   margin: 4px 0 0;
 }
 
@@ -58,25 +57,25 @@
 }
 
 .lo-header-stat {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 12px 20px;
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  border-radius: calc(var(--radius) - 2px);
+  padding: 10px 16px;
   text-align: center;
-  color: #fff;
+  color: hsl(var(--foreground));
 }
 
 .lo-header-stat span {
   display: block;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
 }
 
 .lo-header-stat label {
   font-size: 11px;
-  opacity: 0.7;
+  color: hsl(var(--muted-foreground));
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.05em;
 }
 
 .lo-header-stat-alert {

@@ -1,19 +1,53 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../controllers/auth.controller';
 import { useNotificationStore } from '../../controllers/notification.controller';
 import './Layout.css';
 
+interface NavItem {
+  path: string;
+  label: string;
+  icon: string;
+}
+
+const CUSTOMER_NAV: NavItem[] = [
+  { path: '/dashboard',    label: 'Dashboard',     icon: '◫' },
+  { path: '/accounts',     label: 'Accounts',      icon: '🏦' },
+  { path: '/transactions', label: 'Transactions',  icon: '↕' },
+  { path: '/loans',        label: 'Loans',         icon: '📋' },
+  { path: '/statements',   label: 'Statements',    icon: '📄' },
+  { path: '/notifications',label: 'Notifications', icon: '🔔' },
+  { path: '/profile',      label: 'Profile',       icon: '◉' },
+];
+
+const EMPLOYEE_NAV: NavItem[] = [
+  { path: '/dashboard',     label: 'Dashboard',     icon: '◫' },
+  { path: '/staff',         label: 'Staff Panel',   icon: '🏦' },
+  { path: '/loan-officers', label: 'Loan Officer',  icon: '📋' },
+  { path: '/notifications', label: 'Notifications', icon: '🔔' },
+  { path: '/profile',       label: 'Profile',       icon: '◉' },
+];
+
+const ADMIN_NAV: NavItem[] = [
+  { path: '/dashboard',     label: 'Dashboard',     icon: '◫' },
+  { path: '/staff',         label: 'Staff Panel',   icon: '🏦' },
+  { path: '/loan-officers', label: 'Loan Officer',  icon: '📋' },
+  { path: '/admin',         label: 'Admin',         icon: '⚙' },
+  { path: '/notifications', label: 'Notifications', icon: '🔔' },
+  { path: '/profile',       label: 'Profile',       icon: '◉' },
+];
+
 export const Layout: React.FC = () => {
   const { user, logout } = useAuthStore();
   const { unreadCount, fetchUnreadCount } = useNotificationStore();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Poll unread count every 30 seconds
   useEffect(() => {
     fetchUnreadCount();
     const interval = setInterval(fetchUnreadCount, 30_000);
     return () => clearInterval(interval);
   }, []);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,123 +56,94 @@ export const Layout: React.FC = () => {
     navigate('/login');
   };
 
-  const isEmployee = user?.role === 'EMPLOYEE' || user?.role === 'ADMIN';
-  const isAdmin = user?.role === 'ADMIN';
-  const isCustomer = user?.role === 'CUSTOMER';
+  const navItems =
+    user?.role === 'ADMIN'
+      ? ADMIN_NAV
+      : user?.role === 'EMPLOYEE'
+      ? EMPLOYEE_NAV
+      : CUSTOMER_NAV;
 
-  const navLinkClass = (path: string) =>
-    `nav-link${location.pathname === path || location.pathname.startsWith(path + '/') ? ' nav-link-active' : ''}`;
+  const isActive = (path: string) =>
+    location.pathname === path || location.pathname.startsWith(path + '/');
+
+  const pageName =
+    navItems.find((n) => isActive(n.path))?.label ?? 'Dashboard';
 
   return (
-    <div className="layout">
-      <nav className="navbar">
-        <div className="navbar-brand">
-          <Link to="/dashboard">🏦 Banking System</Link>
+    <div className="layout-root">
+      {/* Sidebar */}
+      <aside className={`sidebar${sidebarOpen ? ' sidebar-open' : ''}`}>
+        <div className="sidebar-header">
+          <Link to="/dashboard" className="sidebar-brand" onClick={() => setSidebarOpen(false)}>
+            <span className="sidebar-brand-icon">🏦</span>
+            <span className="sidebar-brand-name">NeoBank</span>
+          </Link>
         </div>
 
-        <div className="navbar-menu">
-          <Link to="/dashboard" className={navLinkClass('/dashboard')}>
-            Dashboard
-          </Link>
-          <Link to="/profile" className={navLinkClass('/profile')}>
-            Profile
-          </Link>
-
-          {/* Customer navigation */}
-          {isCustomer && (
-            <>
-              <Link to="/accounts" className={navLinkClass('/accounts')}>
-                Accounts
-              </Link>
-              <Link
-                to="/transactions"
-                className={navLinkClass('/transactions')}
-              >
-                Transactions
-              </Link>
-              <Link to="/loans" className={navLinkClass('/loans')}>
-                Loans
-              </Link>
-              <Link to="/statements" className={navLinkClass('/statements')}>
-                📄 Statements
-              </Link>
-            </>
-          )}
-
-          {/* Employee / Staff navigation */}
-          {isEmployee && (
-            <>
-              <Link to="/staff" className={navLinkClass('/staff')}>
-                🏦 Staff Panel
-              </Link>
-              <Link
-                to="/loan-officers"
-                className={navLinkClass('/loan-officers')}
-              >
-                📋 Loan Officer
-              </Link>
-            </>
-          )}
-
-          {/* Admin only */}
-          {isAdmin && (
-            <Link to="/admin" className={navLinkClass('/admin')}>
-              ⚙ Admin
+        <nav className="sidebar-nav">
+          {navItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`sidebar-link${isActive(item.path) ? ' sidebar-link-active' : ''}`}
+              onClick={() => setSidebarOpen(false)}
+            >
+              <span className="sidebar-link-icon">{item.icon}</span>
+              <span className="sidebar-link-label">{item.label}</span>
+              {item.path === '/notifications' && unreadCount > 0 && (
+                <span className="sidebar-badge">
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </span>
+              )}
             </Link>
-          )}
-        </div>
+          ))}
+        </nav>
 
-        <div className="navbar-user">
-          {/* Notification bell */}
-          <Link
-            to="/notifications"
-            title="Notifications"
-            style={{
-              position: 'relative',
-              textDecoration: 'none',
-              fontSize: 22,
-              lineHeight: 1,
-              marginRight: 6,
-            }}
-          >
-            🔔
-            {unreadCount > 0 && (
-              <span
-                style={{
-                  position: 'absolute',
-                  top: -4,
-                  right: -6,
-                  background: '#ef4444',
-                  color: '#fff',
-                  borderRadius: '50%',
-                  fontSize: 10,
-                  fontWeight: 700,
-                  minWidth: 16,
-                  height: 16,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '0 3px',
-                  lineHeight: 1,
-                }}
-              >
-                {unreadCount > 99 ? '99+' : unreadCount}
-              </span>
-            )}
-          </Link>
-          <span className="user-name">{user?.name}</span>
-          <span className={`user-role role-${user?.role?.toLowerCase()}`}>
-            {user?.role}
-          </span>
-          <button onClick={handleLogout} className="btn btn-secondary btn-sm">
-            Logout
+        <div className="sidebar-footer">
+          <div className="sidebar-user">
+            <div className="sidebar-user-avatar">
+              {user?.name?.charAt(0).toUpperCase() ?? 'U'}
+            </div>
+            <div className="sidebar-user-info">
+              <span className="sidebar-user-name">{user?.name}</span>
+              <span className="sidebar-user-role">{user?.role}</span>
+            </div>
+          </div>
+          <button className="btn btn-ghost btn-sm sidebar-logout" onClick={handleLogout} title="Sign out">
+            ⏻
           </button>
         </div>
-      </nav>
+      </aside>
 
-      <main className="main-content">
-        <Outlet />
-      </main>
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      {/* Main content */}
+      <div className="layout-main">
+        {/* Top header bar */}
+        <header className="topbar">
+          <button
+            className="topbar-menu-btn btn btn-ghost btn-sm"
+            onClick={() => setSidebarOpen((v) => !v)}
+            aria-label="Toggle menu"
+          >
+            ☰
+          </button>
+          <h1 className="topbar-title">{pageName}</h1>
+          <div className="topbar-right">
+            <span className={`role-badge role-${user?.role?.toLowerCase()}`}>
+              {user?.role}
+            </span>
+          </div>
+        </header>
+
+        <main className="main-content">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };
+
