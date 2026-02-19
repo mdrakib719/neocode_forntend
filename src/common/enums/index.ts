@@ -1,0 +1,48 @@
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  EMPLOYEE = 'EMPLOYEE',
+  CUSTOMER = 'CUSTOMER',
+}
+
+export enum AccountType {
+  SAVINGS = 'SAVINGS',
+  CHECKING = 'CHECKING',
+  LOAN = 'LOAN',
+  FIXED_DEPOSIT = 'FIXED_DEPOSIT',
+  RECURRING_DEPOSIT = 'RECURRING_DEPOSIT',
+}
+
+export enum TransactionType {
+  DEPOSIT = 'DEPOSIT',
+  WITHDRAW = 'WITHDRAW',
+  TRANSFER = 'TRANSFER',
+  EXTERNAL_TRANSFER = 'EXTERNAL_TRANSFER',
+  REVERSAL = 'REVERSAL',
+}
+
+export enum TransactionStatus {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
+  REVERSED = 'REVERSED',
+}
+
+export enum LoanStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  CLOSED = 'CLOSED',
+}
+
+export enum LoanType {
+  PERSONAL = 'PERSONAL',
+  HOME = 'HOME',
+  VEHICLE = 'VEHICLE',
+  EDUCATION = 'EDUCATION',
+}
+
+export enum LoanPenaltyStatus {
+  PENDING = 'PENDING',
+  COLLECTED = 'COLLECTED',
+  WAIVED = 'WAIVED',
+}

@@ -1,0 +1,122 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.navbar {
+  background: #000000;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid #000000;
+}
+
+.navbar-brand a {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-link {
+  color: #cccccc;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+.nav-link-active {
+  background: #ffffff;
+  color: #000000 !important;
+  font-weight: 700;
+}
+
+.nav-link-active:hover {
+  background: #e8e8e8;
+}
+
+.role-employee {
+  background: #f0f0f0;
+  color: #000;
+}
+
+.role-admin {
+  background: #000;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.role-customer {
+  background: #333;
+  color: #fff;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.user-role {
+  font-size: 12px;
+  padding: 4px 8px;
+  background: #ffffff;
+  color: #000000;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 24px;
+  background: #fafafa;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .navbar-menu {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .navbar-user {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

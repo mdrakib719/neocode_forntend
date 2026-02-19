@@ -1,0 +1,112 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: #fafafa;
+}
+
+.auth-card {
+  background: white;
+  border-radius: 4px;
+  padding: 40px;
+  border: 2px solid #000000;
+  max-width: 450px;
+  width: 100%;
+}
+
+.auth-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.auth-subtitle {
+  color: #666666;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.btn-block {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: 20px;
+  color: #000000;
+}
+
+.auth-link a {
+  color: #000000;
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid #000000;
+}
+
+.auth-link a:hover {
+  opacity: 0.7;
+}
+
+.demo-credentials {
+  margin-top: 24px;
+  padding: 16px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #666666;
+  border: 1px solid #e0e0e0;
+}
+
+.demo-credentials p {
+  margin: 4px 0;
+}
+
+.demo-credentials strong {
+  color: #000000;
+}
+
+/* ─── 2FA login step ─────────────────────────────────────────────────────── */
+.tfa-icon {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.tfa-code-input {
+  text-align: center;
+  font-size: 1.8rem;
+  letter-spacing: 0.5em;
+  font-family: 'Courier New', monospace;
+  padding: 0.75rem;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 0.4rem;
+}
+
+.tfa-back-link {
+  display: block;
+  background: none;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  text-align: center;
+  width: 100%;
+  padding: 0;
+}
+
+.tfa-back-link:hover {
+  text-decoration: underline;
+}
