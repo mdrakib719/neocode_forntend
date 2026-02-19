@@ -49,14 +49,16 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
       ],
       synchronize: false,
       logging: false,
+      retryAttempts: isVercel ? 2 : 5,
+      retryDelay: 1000,
       // Serverless-friendly connection settings
       extra: {
         connectionLimit: isVercel || isProduction ? 2 : 10,
-        connectTimeout: 20000,
+        connectTimeout: 15000,
       },
-      connectTimeout: 20000,
-      // Don't keep connections alive in serverless
-      ...(isVercel ? { keepConnectionAlive: false } : {}),
+      connectTimeout: 15000,
+      // Reuse connections across warm invocations for performance
+      keepConnectionAlive: true,
     };
   }
 }
